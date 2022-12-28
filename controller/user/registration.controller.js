@@ -1,14 +1,17 @@
 var mongoose = require('mongoose');
 
-let registration = mongoose.model('userRegistration');
+let registration = require('../../model/registration.model')
 
 module.exports.userRegistration = async (req, res) => {
     try {
         const registrationData = await registration.create({
             name: req.body.name,
             mobile: req.body.mobile,
+            email : req.body.email,
             password: req.body.password,
-            select : req.body.select
+            role : req.body.role,
+            isMobileVerify : req.body.isMobileVerify,
+            isEmailVerify : req.body.isEmailVerify
         })
         return res 
         .status(200)

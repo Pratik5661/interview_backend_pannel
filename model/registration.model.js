@@ -9,14 +9,38 @@ let userRegistration = new mongoose.Schema({
         type : Number,
         required : true
     },
+    email : {
+        type: String,
+        required : true
+    },
+    isEmailVerify : {
+        type : Boolean,
+        default: false
+    },
+    isMobileVerify : {
+        type : Boolean,
+        default: false
+    },
     password : {
         type : String,
         required : true
     },
-    select : {
+    role : {
         type : String,
         required : true
+    },
+    createdAt : {
+        type : Date,
+        required : false,
+        default : Date.now()
+    },
+    updatedAt : {
+        type : Date,
+        required : false,
+        default : Date.now()
     }
 })
 
-mongoose.model('userRegistration', userRegistration)
+
+
+module.exports = mongoose.model('userRegistration', userRegistration)
