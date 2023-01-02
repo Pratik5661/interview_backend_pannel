@@ -8,7 +8,7 @@ const userLogin = require('../controller/user/login.controller');
 
 // Routes ---
 // userRegistration
-router.route('/registration').post(userRegistration.userRegistration);
+router.route('/register').post(userRegistration.userRegistration);
 
 // userLogin
 router.route('/login').post(userLogin.Login)
