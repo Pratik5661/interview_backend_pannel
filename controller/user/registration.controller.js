@@ -1,24 +1,31 @@
-var mongoose = require('mongoose');
-
 let registration = require('../../model/registration.model')
+const utl  = require('../../utility');
 
 module.exports.userRegistration = async (req, res) => {
     try {
+        const checkUser = await registration.find({ $or: [{ email: req.body.email }, { mobile: req.body.mobile }] });
+        if (checkUser.length) {
+            return res
+                .status(400)
+                .json({ status: "error", message: 'user already registered with this email or mobile' })
+        }
         const registrationData = await registration.create({
             name: req.body.name,
             mobile: req.body.mobile,
-            email : req.body.email,
-            password: req.body.password,
-            role : req.body.role,
-            isMobileVerify : req.body.isMobileVerify,
-            isEmailVerify : req.body.isEmailVerify
+            email: req.body.email,
+            role: req.body.role,
+            skills:req.body.skills,
+            resume:'',
+            isMobileVerify: false,
+            isEmailVerify: false
         })
-        return res 
-        .status(200)
-        .json({status : "success", data : registrationData})
+        await registration.create(registrationData);
+        return res
+            .status(200)
+            .json({ status: "success", otp:  utl.generateOtp(), message:'user registered sucessfully and verification otp sent'})
     } catch (err) {
         return res
-        .status(400)
-        .json({"error" : err})
+            .status(400)
+            .json({ "error": err.message })
     }
 }

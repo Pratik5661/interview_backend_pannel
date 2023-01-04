@@ -1,6 +1,6 @@
 let mongoose = require('mongoose');
 const jwt = require('jsonwebtoken')  
-let loginList =  require('../../model/login.model');
+let loginList = mongoose.model('userLogin');
 
 module.exports.Login = async (req, res) => {
         const email = req.body.email
