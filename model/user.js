@@ -1,32 +1,54 @@
 var mongoose = require('mongoose');
-let userSchema = new mongoose.Schema({
-        email : {
-            type: String,
-            required: true
-        }, 
-        password : {
-            type: String,
-            required: true
-        },
-        role : {
-            type: String,
-            enum : ["employee", "admin", "customer"],
-            default: "customer"
-        },
-        createBy : {
-            type: String,
-            required: false
-        },
-        createdAt : {
-            type : Date,
-            required : false,
-            default : Date.now()
-        },
-        updatedAt : {
-            type: Date,
-            required : false,
-            default : Date.now()
-        }
+
+let userRegistration = new mongoose.Schema({
+    fullName: {
+        type: String,
+        required: true
+    },
+    mobile: {
+        type: Number,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    isEmailVerify: {
+        type: Boolean,
+        default: false
+    },
+    isMobileVerify: {
+        type: Boolean,
+        default: false
+    },
+    password: {
+        type: String,
+    },
+    role: {
+        type: String,
+        required: true
+    },
+    emailVerifyOtp: Number,
+    profileStatus: {
+        type: 'string',
+        default: 'incomplete'
+    },
+    skills: [],
+    resume: {
+        type: String
+    },
+    createdAt: {
+        type: Date,
+        required: false,
+        default: Date.now()
+    },
+    updatedAt: {
+        type: Date,
+        required: false,
+        default: Date.now()
+    }
 })
 
-mongoose.model('user', userSchema)
+
+
+module.exports = mongoose.model('user', userRegistration, 'user')

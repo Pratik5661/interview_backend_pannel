@@ -1,4 +1,4 @@
-let registration = require('../../model/registration.model')
+let registration = require('../../model/user')
 const utl  = require('../../utility');
 
 module.exports.userRegistration = async (req, res) => {
@@ -10,19 +10,20 @@ module.exports.userRegistration = async (req, res) => {
                 .json({ status: "error", message: 'user already registered with this email or mobile' })
         }
         const registrationData = await registration.create({
-            name: req.body.name,
+            fullName: req.body.fullName,
             mobile: req.body.mobile,
             email: req.body.email,
             role: req.body.role,
             skills:req.body.skills,
             resume:'',
             isMobileVerify: false,
-            isEmailVerify: false
+            isEmailVerify: false,
+            emailVerifyOtp:  utl.generateOtp()
         })
         await registration.create(registrationData);
         return res
             .status(200)
-            .json({ status: "success", otp:  utl.generateOtp(), message:'user registered sucessfully and verification otp sent'})
+            .json({ status: "success", otp:  registrationData.emailVerifyOtp, message:'user registered sucessfully and verification otp sent'})
     } catch (err) {
         return res
             .status(400)
