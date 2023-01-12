@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 let userRegistration = new mongoose.Schema({
-    name: {
+    fullName: {
         type: String,
         required: true
     },
@@ -22,8 +22,7 @@ let userRegistration = new mongoose.Schema({
         default: false
     },
     password: {
-        type: String,
-        required: true
+        type: String,   
     },
     role: {
         type: String,

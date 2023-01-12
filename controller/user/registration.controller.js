@@ -10,7 +10,7 @@ module.exports.userRegistration = async (req, res) => {
                 .json({ status: "error", message: 'user already registered with this email or mobile' })
         }
         const registrationData = await registration.create({
-            name: req.body.name,
+            fullName: req.body.fullName,
             mobile: req.body.mobile,
             email: req.body.email,
             role: req.body.role,
