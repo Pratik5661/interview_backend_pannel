@@ -5,17 +5,19 @@ const bodyParser = require('body-parser')
 const cors = require('cors');
 const mongoose = require('mongoose')
 const route = require('./routes/index')
+
 app.use(cors())
+app.use(bodyParser.json())
 
 app.use(bodyParser.urlencoded({
     'extended' : true
 }));
+app.use(express.static('uploads'))
 
-app.use(bodyParser.json())
+
 // port is runing on 
 app.use('/api',route);
 app.set('port', 3004)
-
 
 // Listen for requests
 

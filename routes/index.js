@@ -1,16 +1,30 @@
 const express = require('express');
-
 const router = express.Router();
+const multer = require('multer');
+const upload = multer({
+    storage: multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, './temp/')
+        },
+        filename: function (req, file, cb) {
+            const uniqueSuffix = Date.now();
+            cb(null, `${uniqueSuffix}_${file.originalname}`)
+        }
+    })
+})
 
 
-const userRegistration = require('../controller/user/registration.controller');
+const userRegistration = require('../controller/user/registration');
 const userLogin = require('../controller/user/login');
 const verify = require('../controller/user/verify');
 
 // Routes ---
-// userRegistration
-router.route('/register').post(userRegistration.userRegistration);
+router.route('/upload').post(upload.single("file"),(req,res)=>{
+    res.status(200).json({status: 'success', message:'file uploaded successfully', fileName: req.file.filename})
+});
 
+// userRegistration
+router.route('/register').post(userRegistration);
 // userLogin
 router.route('/login').post(userLogin);
 router.route('/verify').post(verify)

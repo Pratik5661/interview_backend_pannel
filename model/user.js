@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var autoIncrement = require('mongoose-auto-increment');
 
 let userRegistration = new mongoose.Schema({
     fullName: {
@@ -49,6 +50,6 @@ let userRegistration = new mongoose.Schema({
     }
 })
 
-
-
+autoIncrement.initialize(mongoose.connection);
+userRegistration.plugin(autoIncrement.plugin, { model: 'user', field: 'id' })
 module.exports = mongoose.model('user', userRegistration, 'user')
