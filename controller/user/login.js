@@ -1,6 +1,7 @@
 const userSchema = require('../../model/user');
 const bcrypt = require('bcrypt');
 const jsonToken = require('jsonwebtoken');
+const config = require('../../config.json');
 
 const login = async (req, res) => {
     try {
@@ -12,7 +13,7 @@ const login = async (req, res) => {
         const comparePass = await bcrypt.compare(req.body.password, findUser.password);
         if (!comparePass) res.status(400).json({ message: 'incorrect email or password' });
 
-        const token = await jsonToken.sign({ role: findUser.role, _id: findUser._id, email: findUser.email }, '*&&*123');
+        const token = await jsonToken.sign({ role: findUser.role, _id: findUser._id, email: findUser.email }, config.tokenSecret);
 
         res.status(200).json({ status: 'success', token, user: { email: findUser.email, role: findUser.role, _id: findUser._id, name: findUser.fullName } });
 

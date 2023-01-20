@@ -12,11 +12,14 @@ const upload = multer({
         }
     })
 })
-
+const verifyToken = require('../controller/verifyToken');
 
 const userRegistration = require('../controller/user/registration');
 const userLogin = require('../controller/user/login');
 const verify = require('../controller/user/verify');
+const getDashboard = require('../controller/dashboard');
+const getUsers = require('../controller/user/list');
+
 
 // Routes ---
 router.route('/upload').post(upload.single("file"),(req,res)=>{
@@ -27,6 +30,11 @@ router.route('/upload').post(upload.single("file"),(req,res)=>{
 router.route('/register').post(userRegistration);
 // userLogin
 router.route('/login').post(userLogin);
-router.route('/verify').post(verify)
+router.route('/verify').post(verify);
+
+router.route('/getdashboard/data').get(getDashboard);
+router.route('/getUsers').get(getUsers);
+
+router.use(verifyToken);
 
 module.exports = router

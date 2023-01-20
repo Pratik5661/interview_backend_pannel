@@ -20,7 +20,7 @@ const userRegistration = async (req, res) => {
             email: req.body.email,
             role: req.body.role,
             skills: req.body.skills,
-            resume: '',
+            resume: req.body.resume,
             isMobileVerify: false,
             isEmailVerify: false,
             emailVerifyOtp: utl.generateOtp()
