@@ -20,10 +20,13 @@ const verify = require('../controller/user/verify');
 const getDashboard = require('../controller/dashboard');
 const getUsers = require('../controller/user/list');
 
+const scheduleInterview = require('../controller/scheduleInterview/index');
+const getScheduleInteviews = require('../controller/scheduleInterview/list');
+
 
 // Routes ---
-router.route('/upload').post(upload.single("file"),(req,res)=>{
-    res.status(200).json({status: 'success', message:'file uploaded successfully', fileName: req.file.filename})
+router.route('/upload').post(upload.single("file"), (req, res) => {
+    res.status(200).json({ status: 'success', message: 'file uploaded successfully', fileName: req.file.filename })
 });
 
 // userRegistration
@@ -32,9 +35,12 @@ router.route('/register').post(userRegistration);
 router.route('/login').post(userLogin);
 router.route('/verify').post(verify);
 
+router.use(verifyToken);
+
 router.route('/getdashboard/data').get(getDashboard);
 router.route('/getUsers').get(getUsers);
+router.route('/schedule/interview').post(scheduleInterview);
+router.route('/interviews').get(getScheduleInteviews);
 
-router.use(verifyToken);
 
 module.exports = router
