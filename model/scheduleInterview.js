@@ -4,7 +4,7 @@ var autoIncrement = require('mongoose-auto-increment');
 let scheduleInterview = new mongoose.Schema({
     candidate: { type: mongoose.Types.ObjectId, default: null, required: true },
     interviewer: { type: mongoose.Types.ObjectId, default: null, required: true },
-    interviewtype: String,
+    interviewType: String,
     duration: { type: Number, required: true },
     skills: [],
     scheduleDate: { type: Date, required: true },
