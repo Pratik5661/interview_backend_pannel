@@ -1,27 +1,57 @@
 const scheduleInterviewSchema = require('../../model/scheduleInterview');
 
-const getScheduledInterviews = async (req,res) => {
+const getScheduledInterviews = async (req, res) => {
     try {
         const aggregate = [
             {
                 $lookup: {
                     from: 'user',
                     let: {
-                        'interviewer': '$interviewer',
-                        'candidate': '$candidate',
-                        pipeline: [{
-                            $match: {
-                                $or: [{ _id: '$interviewer' }, { _id: '$candidate' }]
-                            }
-                        }]
+                        'interviewerId': '$interviewer',
+                        'candidateId': '$candidate',
                     },
-                    as:'candidate'
+                    pipeline: [{
+                        $match: {
+                            $expr: {
+                                $or: [{ $eq: ['$_id', '$$interviewerId'] }, { $eq: ['$_id', '$$candidateId'] }]
+                            }
+                        }
+                    }],
+                    as: 'candidate'
+                }
+            },
+            {
+                $addFields: {
+                    'interviewer': {
+                        $arrayElemAt: [{
+                            $filter: {
+                                input: '$candidate',
+                                as: 'user',
+                                cond: { $eq: ['$$user.role', 'Interviewer'] }
+                            }
+                        }, 0]
+                    }
+                }
+            },
+            {
+                $addFields: {
+                    candidate: {
+                        $arrayElemAt: [{
+                            $filter: {
+                                input: '$candidate',
+                                as: 'user',
+                                cond: { $eq: ['$$user.role', 'Developer'] }
+                            }
+                        }, 0]
+
+                    }
                 }
             }
         ]
 
-    const response = await scheduleInterviewSchema.aggregate(aggregate);
-    return res.status(200).json({response});
+        const response = await scheduleInterviewSchema.aggregate(aggregate);
+
+        return res.status(200).json({ message: 'Interviews', interviews: response, success: true });
     } catch (err) {
         return res
             .status(400)
