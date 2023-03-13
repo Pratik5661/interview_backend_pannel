@@ -5,6 +5,9 @@ const config = require('../../config.json');
 const moment = require('moment');
 const { google } = require('googleapis');
 
+String.prototype.toProperCase = function() {
+    return this.charAt(0).toUpperCase() + this.substr(1);
+  }
 // const eventId = "<yourEventId>";
 // const calendarId = "<yourCalendarId>";
 
@@ -39,6 +42,7 @@ const setEmail = async (req, users) => {
 
         const findDeveloper = users.filter(data => data.role === 'Developer')[0];
         const findInterviewer = users.filter(data => data.role === 'Interviewer')[0];
+
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -62,7 +66,7 @@ const setEmail = async (req, users) => {
                 <b>Start Time: </b>${req.body.startTime}<br>
                 <b>Duration: </b>${req.body.duration}<br>
                 <b>Interview Type: </b>${req.body.interviewType}<br>
-                <b>Link: </b>'__'
+                <b>Link: </b> __
             `,
         };
 
