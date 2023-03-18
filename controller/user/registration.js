@@ -7,7 +7,6 @@ const userRegistration = async (req, res) => {
     try {
         let hashPass = '';
         const checkUser = await registration.find({ $or: [{ email: req.body.email }, { mobile: req.body.mobile }] });
-
         if (checkUser.length) {
             return res
                 .status(400)

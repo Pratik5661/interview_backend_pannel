@@ -9,6 +9,7 @@ let scheduleInterview = new mongoose.Schema({
     skills: [],
     scheduleDate: { type: Date, required: true },
     startTime: { type: String, required: true },
+    status: { type: String, default: 'Pending' },
     createdAt: {
         type: Date,
         required: false,

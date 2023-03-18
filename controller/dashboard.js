@@ -50,7 +50,7 @@ const getDashboardData = async (req, res) => {
                         $count: 'total'
                     },
 
-                ]
+                ],
             }
         },
         ]
