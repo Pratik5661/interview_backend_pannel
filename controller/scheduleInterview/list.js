@@ -44,10 +44,26 @@ const getScheduledInterviews = async (req, res) => {
                             }
                         }, 0]
 
+                    },
+                    "scheduleDateDiff": {
+                        $dateDiff:
+                        {
+                            startDate: "$scheduleDate",
+                            endDate: new Date(),
+                            unit: "day"
+                        }
                     }
                 }
             }
         ]
+
+        if (req.query.isTodayInterviews) {
+            aggregate.push({
+                $match: {
+                    scheduleDateDiff: 0
+                }
+            })
+        }
 
         const response = await scheduleInterviewSchema.aggregate(aggregate);
 
